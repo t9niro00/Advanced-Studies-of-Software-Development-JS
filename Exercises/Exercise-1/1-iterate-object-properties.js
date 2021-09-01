@@ -17,7 +17,7 @@ for (const i in vehicle)
 person = 
 {
     name: "Roope",
-    sex: "male",
+    sex: "two, maybe three times in a week",
     birthday: "29th",
     profession: "student"
 };
