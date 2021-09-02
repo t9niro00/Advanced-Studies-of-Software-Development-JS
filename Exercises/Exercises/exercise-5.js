@@ -85,5 +85,4 @@ r.getAndEatFood('apple');
 r.getAndEatFood('apple');
 r.getAndEatFood('banana');
 r.getAndEatFood('apple');
-r.getAndEatFood('bread');
 r.getContents();
