@@ -20,8 +20,10 @@ class Car {
 
   keyboardInputDemo() {
     readline.emitKeypressEvents(process.stdin);
-    process.stdin.setRawMode(true);
-    process.stdin.on('keypress', function(key, data) {
+    if(process.stdin.isTTY){
+        process.stdin.setRawMode(true);
+    }
+    process.stdin.on('keypress', (key, data) => {
 
       console.log("Name of the brand: " + this.brand);
 
