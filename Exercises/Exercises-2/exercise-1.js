@@ -3,6 +3,15 @@
 
 /*** START YOUR CODE HERE */
 
+function multiplier(integer)
+{
+    function calculator(x)
+    {
+        return x * integer;
+    }
+    return calculator;
+}
+
 /*** END YOUR CODE HERE */
 
 const multiplier2 = multiplier(2);
