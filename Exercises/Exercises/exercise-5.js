@@ -9,27 +9,27 @@ class Refrigerator{
         this.store.push(food);
     }
 
-    getAndEatFood(foodType)
-    {
-        let matchingFood = this.store.find(foodElement =>
-            {
-                if(foodElement.type === foodType)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            });
-            if(matchingFood == undefined)
-            {
-                console.log('Sorry no such food in the refrigerator!');
-                return;
-            }
-
-            console.log(matchingFood);
-    }
+    getAndEatFood(foodName) {
+        let searchedFoodIdx = this.store.findIndex(function (food) {
+          if(food.type === foodName) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        });
+    
+        if(searchedFoodIdx == -1) {
+          console.log('Sorry, no such food in this refrigerator!');
+          return;
+        }
+    
+        this.store[searchedFoodIdx].eatOne();
+        if(this.store[searchedFoodIdx].getQty() == 0)
+        {
+          this.store.splice(searchedFoodIdx, 1);
+        }
+      }
 
     getContents()
     {
@@ -46,6 +46,29 @@ class food{
     {
         this.type = type;
         this.quantity = quantity;
+    }
+
+    whatIsThis()
+    {
+        return this.type;
+    }
+
+    eatOne()
+    {
+        if(this.quantity > 0)
+        {
+            this.quantity--;
+            console.log(this.type + " " + this.quantity + " remaining.");
+        }
+        else
+        {
+            console.log('Sorry, no more ' + this.type + " remaining.");
+        }
+    }
+
+    getQty()
+    {
+        return this.quantity;
     }
 }
 
