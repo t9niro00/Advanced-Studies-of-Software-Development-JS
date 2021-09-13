@@ -6,6 +6,28 @@ const port = 3000
 
 app.use(express.json())
 
+function demoMiddleware(req, res, next) {
+    console.log("hello this is demoMiddleware")
+    next()
+}
+
+app.use((req, res, next) => {
+    console.log("hello this is middleware 1!")
+    next()
+})
+
+app.use((req, res, next) => {
+    console.log("hello this is middleware 2!")
+    next()
+})
+
+app.use((req, res, next) => {
+    console.log("hello this is middleware 3!")
+    next()
+})
+
+
+
 
 const cities = [
     { cityCode: "helsinki", cityName: 'Helsinki', temperature: "26.6"},
@@ -15,8 +37,9 @@ const cities = [
     { cityCode: "jyväskylä", cityName: 'Jyväskylä', temperature: "18.9"}
 ];
 
-app.get('/weather', (req, res) => {
+app.get('/weather', demoMiddleware, (req, res) => {
     res.json(cities)
+    console.log("This is GET weather")
 })
 
 app.get('/weather/:cityCode', (req, res) => {
