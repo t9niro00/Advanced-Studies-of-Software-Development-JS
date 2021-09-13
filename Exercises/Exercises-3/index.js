@@ -30,7 +30,7 @@ app.get('/weather/:cityCode', (req, res) => {
         res.json(city)
     }
 })
-
+//Näytetään konsolissa mitä porttia kuunnellaan.
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
