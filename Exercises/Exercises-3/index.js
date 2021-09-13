@@ -27,7 +27,17 @@ app.use((req, res, next) => {
 })
 
 
-
+function apiKeySecurity(req, res, next) {
+    if(req.get('my-api-key') == 12345678){
+        console.log("api-key validation successful")
+        next()
+    }
+    else
+    {
+        console.log("api-key validation failed")
+        res.sendStatus(401)
+    }
+}
 
 const cities = [
     { cityCode: "helsinki", cityName: 'Helsinki', temperature: "26.6"},
@@ -42,7 +52,7 @@ app.get('/weather', demoMiddleware, (req, res) => {
     console.log("This is GET weather")
 })
 
-app.get('/weather/:cityCode', (req, res) => {
+app.get('/weather/:cityCode', apiKeySecurity, (req, res) => {
     const city = cities.find(d => d.cityCode === req.params.cityCode)
     if(city === undefined)
     {
