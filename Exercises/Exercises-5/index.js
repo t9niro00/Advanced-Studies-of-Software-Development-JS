@@ -49,7 +49,6 @@ app.post('/signup', (req, res)=>{
         password: req.body.password,
         email: req.body.email,
     }
-
     userDb.push(newUser)
     res.sendStatus(201)
 })
