@@ -29,10 +29,10 @@ passport.use(new BasicStrategy(
         })
 
         if(searchResult != undefined) {
-            done(null, searchResult);
+            done(null, searchResult); //succesful authentication
         }
         else{
-            done(null, false);
+            done(null, false); // no credentials found
         }
         
     }
@@ -41,6 +41,8 @@ passport.use(new BasicStrategy(
 app.get('/', (req, res) => {
     res.send('Welcome')
 })
+
+//this is protected resource with HTTP Basic
 
 app.get('/protectedResource', passport.authenticate('basic', {session:false}), (req, res) => {
     res.send('Succesfully accessed resource')
@@ -68,9 +70,50 @@ app.post('/signup', (req, res)=>{
         password: hashedPassword,
         email: req.body.email,
     }
-    userDb.push(newUser)
+    userDb.push(newUser)  //store the new user in DB
     res.sendStatus(201)
 })
+
+// JWT implementation below //
+const jwt = require('jsonwebtoken')
+const JwtStrategy = require('passport-jwt').Strategy
+const ExtractJwt = require('passport-jwt').ExtractJwt
+const jwtSecretKey = "mySecretKey"
+
+const options = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: jwtSecretKey
+}
+
+
+
+passport.use(new JwtStrategy(options, (payload, done) => {
+    //do something with the payload
+
+    //pass the control to handler methods
+
+    done(null, {})
+
+}))
+
+app.post('/login', passport.authenticate('basic', {session: false}), (req, res) => {
+
+    // Create a JWT for the client
+    const token = jwt.sign({foo: "bar"}, jwtSecretKey)
+
+
+    // Send the JWT to the client
+
+    res.json({token: token })
+
+})
+
+app.get('/jwtProtectedResource', passport.authenticate('jwt', {session: false}), (req, res) => {
+    
+    res.send('You succesfully accessed JWT protectede API resource')
+
+})
+
 
 app.listen(port, () => {
     console.log(`listening on port at http://localhost:${port}`)
