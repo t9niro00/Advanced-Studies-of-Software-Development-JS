@@ -1,0 +1,65 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "Weather report schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "sensorId": 457722345732,
+            "cityCode": "234gf334636",
+            "temperature": 23.4,
+            "windSpeed": 3.4
+        }
+    ],
+    "required": [
+        "sensorId",
+        "cityCode",
+        "temperature",
+        "windSpeed"
+    ],
+    "properties": {
+        "sensorId": {
+            "$id": "#/properties/sensorId",
+            "type": "integer",
+            "title": "Describes sensor Id property",
+            "description": "Sensor Id is unique value used to identify sensor.",
+            "default": 0,
+            "examples": [
+                457722345732
+            ]
+        },
+        "cityCode": {
+            "$id": "#/properties/cityCode",
+            "type": "string",
+            "title": "The cityCode schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "234gf334636"
+            ]
+        },
+        "temperature": {
+            "$id": "#/properties/temperature",
+            "type": "number",
+            "title": "The temperature schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0.0,
+            "examples": [
+                23.4
+            ]
+        },
+        "windSpeed": {
+            "$id": "#/properties/windSpeed",
+            "type": "number",
+            "title": "The windSpeed schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0.0,
+            "examples": [
+                3.4
+            ]
+        }
+    },
+    "additionalProperties": true
+}
