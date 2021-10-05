@@ -3,6 +3,7 @@ const app = express()
 const port = 3000
 const passport = require('passport')
 const BasicStrategy = require('passport-http').BasicStrategy;
+const bcrypt = require('bcryptjs')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended:true}))
@@ -15,8 +16,18 @@ passport.use(new BasicStrategy(
         console.log('Basic strategy params, username ' + username + ' , password ' + password)
 
 
-        //search userDb for matches
-        const searchResult = userDb.find(user => ((username === user.username) && (password === user.password)))
+        //search userDb for matches in user and password
+
+        
+        const searchResult = userDb.find(user => {
+            if(user.username === username) {
+                if(bcrypt.compareSync(password, user.password)){
+                    return true
+                }
+            }
+            return false
+        })
+
         if(searchResult != undefined) {
             done(null, searchResult);
         }
@@ -44,9 +55,17 @@ app.get('/protectedResource', passport.authenticate('basic', {session:false}), (
 */
 
 app.post('/signup', (req, res)=>{
+
+    console.log('Original password ' + req.body.password)
+    const salt = bcrypt.genSaltSync(6)
+    console.log('salt' + salt)
+    const hashedPassword = bcrypt.hashSync(req.body.password, salt)
+    console.log("Hashed password")
+    console.log (hashedPassword)
+
     const newUser = {
         username: req.body.username,
-        password: req.body.password,
+        password: hashedPassword,
         email: req.body.email,
     }
     userDb.push(newUser)
