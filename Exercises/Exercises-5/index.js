@@ -79,10 +79,11 @@ const jwt = require('jsonwebtoken')
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
 const jwtSecretKey = "mySecretKey"
+const secrets = require('./secrets.json')
 
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: jwtSecretKey
+    secretOrKey: secrets.jwtSignKey
 }
 
 
@@ -99,7 +100,7 @@ passport.use(new JwtStrategy(options, (payload, done) => {
 app.post('/login', passport.authenticate('basic', {session: false}), (req, res) => {
 
     // Create a JWT for the client
-    const token = jwt.sign({foo: "bar"}, jwtSecretKey)
+    const token = jwt.sign({foo: "bar"}, secrets.jwtSignKey)
 
 
     // Send the JWT to the client
